@@ -1,5 +1,7 @@
 import { Usuario } from './acesso/usuario.model';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 
 export class Auth {
     public cadastrarUsuario(usuario: Usuario): void {
@@ -17,5 +19,11 @@ export class Auth {
             .catch((error: Error) => {
                 console.log(error);
             });
+    }
+
+    public autenticar(email: string, senha: string): void {
+        firebase.auth().signInWithEmailAndPassword(email, senha)
+            .then((resposta: any) => console.log(resposta))
+            .catch((error: Error) => console.log(error));
     }
 }
