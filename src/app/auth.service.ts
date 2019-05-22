@@ -4,9 +4,12 @@ import 'firebase/auth';
 import 'firebase/database';
 
 export class Auth {
+
+    public token_id: string;
+
     public cadastrarUsuario(usuario: Usuario): Promise<any> {
 
-       return firebase.auth().createUserWithEmailAndPassword(usuario.email, usuario.senha)
+        return firebase.auth().createUserWithEmailAndPassword(usuario.email, usuario.senha)
             .then((resposta: any) => {
 
                 //remover a senha do atributo senha do objeto usuario
@@ -23,7 +26,13 @@ export class Auth {
 
     public autenticar(email: string, senha: string): void {
         firebase.auth().signInWithEmailAndPassword(email, senha)
-            .then((resposta: any) => console.log(resposta))
+            .then((resposta: any) => {
+                firebase.auth().currentUser.getIdToken()
+                    .then((idToken: string) => {
+                        this.token_id = idToken;
+                        console.log(this.token_id);
+                    });
+            })
             .catch((error: Error) => console.log(error));
     }
 }
