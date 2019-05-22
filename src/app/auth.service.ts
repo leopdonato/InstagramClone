@@ -49,6 +49,10 @@ export class Auth {
             this.tokenId = localStorage.getItem('Token');
         }
 
+        if (this.tokenId === undefined){
+            this.router.navigate(['/']);
+        }
+
         if (this.tokenId !== undefined) { //pode retornar esta expressao somente
             isAuth = true;
         } else {
