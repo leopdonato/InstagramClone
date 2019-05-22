@@ -8,9 +8,9 @@ import { Router } from '@angular/router';
 @Injectable()
 export class Auth {
 
-    public token_id: string;
+    public tokenId: string;
 
-    constructor(private router: Router) {}
+    constructor(private router: Router) { }
 
     public cadastrarUsuario(usuario: Usuario): Promise<any> {
 
@@ -34,7 +34,7 @@ export class Auth {
             .then((resposta: any) => {
                 firebase.auth().currentUser.getIdToken()
                     .then((idToken: string) => {
-                        this.token_id = idToken;
+                        this.tokenId = idToken;
                         localStorage.setItem('Token', idToken);
                         this.router.navigate(['/home']);
                     });
@@ -45,16 +45,25 @@ export class Auth {
     public autenticado(): boolean {
         let isAuth: boolean = true;
 
-        if (this.token_id === undefined && localStorage.getItem('Token') != null){
-            this.token_id = localStorage.getItem('Token');
+        if (this.tokenId === undefined && localStorage.getItem('Token') != null) {
+            this.tokenId = localStorage.getItem('Token');
         }
 
-        if (this.token_id !== undefined) { //pode retornar esta expressao somente
+        if (this.tokenId !== undefined) { //pode retornar esta expressao somente
             isAuth = true;
         } else {
             isAuth = false;
         }
 
         return isAuth;
+    }
+
+    public sair(): void {
+        firebase.auth().signOut()
+            .then(() => {
+                localStorage.removeItem('Token');
+                this.tokenId = undefined;
+                this.router.navigate(['/']);
+            });
     }
 }
