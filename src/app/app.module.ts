@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { Auth } from './auth.service';
+import { AuthGuard } from './auth-guard.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -30,7 +31,7 @@ import { PublicacoesComponent } from './home/publicacoes/publicacoes.component';
     BrowserAnimationsModule,
     ReactiveFormsModule
   ],
-  providers: [ Auth ],
+  providers: [ Auth, AuthGuard ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
