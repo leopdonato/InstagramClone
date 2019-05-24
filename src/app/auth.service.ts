@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class Auth {
 
     public tokenId: string;
+    public msgError: string;
 
     constructor(private router: Router) { }
 
@@ -25,11 +26,11 @@ export class Auth {
                     .set(usuario);
             })
             .catch((error: Error) => {
-                console.log(error);
+                this.msgError = error.message;
             });
     }
 
-    public autenticar(email: string, senha: string): void {
+    public autenticar(email: string, senha: string): string {
         firebase.auth().signInWithEmailAndPassword(email, senha)
             .then((resposta: any) => {
                 firebase.auth().currentUser.getIdToken()
@@ -39,7 +40,10 @@ export class Auth {
                         this.router.navigate(['/home']);
                     });
             })
-            .catch((error: Error) => console.log(error));
+            .catch((error: Error) => {
+                this.msgError = error.message;
+            });
+        return this.msgError;
     }
 
     public autenticado(): boolean {
@@ -49,7 +53,7 @@ export class Auth {
             this.tokenId = localStorage.getItem('Token');
         }
 
-        if (this.tokenId === undefined){
+        if (this.tokenId === undefined) {
             this.router.navigate(['/']);
         }
 

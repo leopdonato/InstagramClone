@@ -1,29 +1,19 @@
 <div class="card" style="width: 20rem;">
   <div class="card-body">
     <div class="card-title"></div>
-    
-    <form [formGroup] = "formulario" (ngSubmit)="autenticar()">
+
+    <form [formGroup]="formulario" (ngSubmit)="autenticar()" (input)="validarFormulario()">
       <div class="form-group">
-        <input 
-          type="email" 
-          class="form-control" 
-          placeholder="E-mail"
-          formControlName="email"
-        >
+        <input type="email" class="form-control" placeholder="E-mail" formControlName="email">
       </div>
       <div class="form-group">
-        <input 
-          type="password"
-          class="form-control" 
-          placeholder="Senha"
-          formControlName="senha"
-        >
+        <input type="password" class="form-control" placeholder="Senha" formControlName="senha">
       </div>
-      <button type="submit" class="btn btn-primary btn-sm btn-block">Entrar</button>
-   </form>
+      <button type="submit" class="btn btn-primary btn-sm btn-block" [disabled] = "isDisabled" >Entrar</button>
+    </form>
     <hr />
 
-    <p class="small text-danger text-center">O nome de usuário inserido não pertence a uma conta. Verifique seu nome de usuário e tente novamente.</p>
+    <p class="small text-danger text-center">{{msgErrorLogin}}</p>
 
   </div>
 </div>
@@ -32,6 +22,6 @@
   <div class="card-body">
     <p class="card-text">
       Não tem uma conta? <a href="#" (click)="exibirPainelCadastro()" class="card-link">Cadastre-se</a>
-    </p> 
+    </p>
   </div>
 </div>

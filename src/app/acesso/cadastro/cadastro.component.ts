@@ -13,11 +13,15 @@ export class CadastroComponent implements OnInit {
   @Output()
   public exibirPainel: EventEmitter<string> = new EventEmitter<string>();
 
+  public msgErrorCadastro: string;
+
+  public isDisabled: boolean = true;
+
   public formulario: FormGroup = new FormGroup({
-    email: new FormControl(null, Validators.email),
-    nome_completo: new FormControl(null),
-    nome_usuario: new FormControl(null),
-    senha: new FormControl(null),
+    email: new FormControl(null, [Validators.email, Validators.required]),
+    nome_completo: new FormControl(null, [Validators.required]),
+    nome_usuario: new FormControl(null, [Validators.required, Validators.minLength(3)]),
+    senha: new FormControl(null, [Validators.required, Validators.minLength(6)]),
   });
 
   constructor(
@@ -40,7 +44,18 @@ export class CadastroComponent implements OnInit {
     );
 
     this.autenticacao.cadastrarUsuario(usuario)
-      .then(() => this.exibirPainelLogin());
+      .then(() => this.exibirPainelLogin())
+      .catch(() => {
+        this.msgErrorCadastro = this.autenticacao.msgError;
+      });
+  }
+
+  public validarFormulario(): void {
+    if (this.formulario.valid){
+      this.isDisabled = false;
+    } else {
+      this.isDisabled = true;
+    }
   }
 
 }

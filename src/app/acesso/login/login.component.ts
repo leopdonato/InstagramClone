@@ -1,5 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Auth } from 'src/app/auth.service';
 
 @Component({
@@ -12,14 +12,20 @@ export class LoginComponent implements OnInit {
   @Output()
   public exibirPainel: EventEmitter<string> = new EventEmitter<string>();
 
-  public formulario: FormGroup = new FormGroup({
-    email: new FormControl (null, Validators.email),
-    senha: new FormControl (null)
-  });
+  public msgErrorLogin: string;
+  public isDisabled: boolean = true;
+
+  public formulario: FormGroup;
 
   constructor(
-    private autenticacao: Auth
-    ) { }
+    private autenticacao: Auth,
+    private fb: FormBuilder
+  ) {
+    this.formulario = this.fb.group({
+      email: [null, [Validators.email, Validators.required]],
+      senha: [null, [Validators.minLength(6), Validators.required]]
+    });
+  }
 
   ngOnInit() {
   }
@@ -33,6 +39,15 @@ export class LoginComponent implements OnInit {
       this.formulario.value.email,
       this.formulario.value.senha
     );
+    this.msgErrorLogin = this.autenticacao.msgError;
+  }
+
+  public validarFormulario(): void {
+    if (this.formulario.valid) {
+      this.isDisabled = false;
+    } else {
+      this.isDisabled = true;
+    }
   }
 
 }

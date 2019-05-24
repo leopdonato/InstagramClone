@@ -2,7 +2,7 @@
   <div class="card-body">
     <div class="card-title"></div>
     
-    <form [formGroup] = "formulario" (ngSubmit)="cadastrarUsuario()">
+    <form [formGroup] = "formulario" (ngSubmit)="cadastrarUsuario()" (input)="validarFormulario()">
       <div class="form-group">
         <input 
           type="email" 
@@ -35,8 +35,13 @@
           formControlName = "senha"
         >
       </div>
-      <button type="submit" class="btn btn-primary btn-sm btn-block">Cadastre-se</button>
+      <button type="submit" class="btn btn-primary btn-sm btn-block" [disabled] = "isDisabled">Cadastre-se</button>
     </form>
+
+    <hr />
+
+    <p class="small text-danger text-center">{{msgErrorCadastro}}</p>
+
     <hr />
 
     <p class="small text-center">Ao cadastrar-se, você concorda com nossos <b>Termos</b> e <b>Política de Privacidade</b>.</p>
