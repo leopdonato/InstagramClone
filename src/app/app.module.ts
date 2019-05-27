@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { Auth } from './auth.service';
 import { AuthGuard } from './auth-guard.service';
+import { Bd } from './bd.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +15,7 @@ import { LoginComponent } from './acesso/login/login.component';
 import { CadastroComponent } from './acesso/cadastro/cadastro.component';
 import { HomeComponent } from './home/home.component';
 import { PublicacoesComponent } from './home/publicacoes/publicacoes.component';
+import { IncluirPublicacaoComponent } from './home/incluir-publicacao/incluir-publicacao.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,8 @@ import { PublicacoesComponent } from './home/publicacoes/publicacoes.component';
     LoginComponent,
     CadastroComponent,
     HomeComponent,
-    PublicacoesComponent
+    PublicacoesComponent,
+    IncluirPublicacaoComponent
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,7 @@ import { PublicacoesComponent } from './home/publicacoes/publicacoes.component';
     BrowserAnimationsModule,
     ReactiveFormsModule
   ],
-  providers: [ Auth, AuthGuard ],
+  providers: [ Auth, AuthGuard, Bd ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
