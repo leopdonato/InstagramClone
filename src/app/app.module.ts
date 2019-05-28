@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Auth } from './auth.service';
 import { AuthGuard } from './auth-guard.service';
 import { Bd } from './bd.service';
+import { Progresso } from './progresso.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,7 +35,7 @@ import { IncluirPublicacaoComponent } from './home/incluir-publicacao/incluir-pu
     BrowserAnimationsModule,
     ReactiveFormsModule
   ],
-  providers: [ Auth, AuthGuard, Bd ],
+  providers: [ Auth, AuthGuard, Bd, Progresso ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
