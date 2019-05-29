@@ -42,42 +42,46 @@ export class Bd {
 
     }
 
-    public consultaPublicacoes(emailUsuario: string): any{
+    public consultaPublicacoes(emailUsuario: string): Promise<any> {
 
-        //consultar as publicacoes (database)
-        firebase.database().ref(`publicacoes/${btoa(emailUsuario)}`)
-            .once('value')
-            .then((snapshot: any) => {
-                //console.log(snapshot.val());
+        return new Promise((resolve, reject) => {
 
-                let publicacoes: Array<any> = [];
+            //consultar as publicacoes (database)
+            firebase.database().ref(`publicacoes/${btoa(emailUsuario)}`)
+                .once('value')
+                .then((snapshot: any) => {
+                    //console.log(snapshot.val());
 
-                snapshot.forEach((childSnapshot: any) => {
+                    let publicacoes: Array<any> = [];
 
-                    let publicacao = childSnapshot.val();
+                    snapshot.forEach((childSnapshot: any) => {
 
-                    //consultar a url da imagem (storage)
-                    firebase.storage().ref()
-                        .child(`imagens/${childSnapshot.key}`)
-                        .getDownloadURL()
-                        .then((url: string) => {
+                        let publicacao = childSnapshot.val();
 
-                            publicacao.urlImagem = url;
+                        //consultar a url da imagem (storage)
+                        firebase.storage().ref()
+                            .child(`imagens/${childSnapshot.key}`)
+                            .getDownloadURL()
+                            .then((url: string) => {
 
-                            //consultar o nome do usuário
-                            firebase.database().ref(`usuario_detalhe/${btoa(emailUsuario)}`)
-                                .once('value')
-                                .then((snapshot2: any) => {
+                                publicacao.urlImagem = url;
 
-                                    publicacao.nomeUsuario = snapshot2.val().nomeUsuario;
+                                //consultar o nome do usuário
+                                firebase.database().ref(`usuario_detalhe/${btoa(emailUsuario)}`)
+                                    .once('value')
+                                    .then((snapshot2: any) => {
 
-                                    publicacoes.push(publicacao);
-                                });
+                                        publicacao.nomeUsuario = snapshot2.val().nomeUsuario;
 
-                        });
+                                        publicacoes.push(publicacao);
+                                    });
+
+                            });
+                    });
+
+                    resolve(publicacoes);
                 });
+        });
 
-                console.log(publicacoes);
-            });
     }
 }
