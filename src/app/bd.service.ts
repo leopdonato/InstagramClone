@@ -29,7 +29,7 @@ export class Bd {
                 },
                 () => {
                     //finalização do progresso
-                    this.progresso.status = 'concluído';
+                    this.progresso.status = 'concluido';
                     //console.log('upload completo');
                 }
             );
