@@ -19,4 +19,8 @@ export class HomeComponent implements OnInit {
     this.auth.sair();
   }
 
+  public atualizarTimeLine(): void {
+    console.log('oi');
+  }
+
 }
