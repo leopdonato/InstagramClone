@@ -5,7 +5,7 @@
         <p class="card-text"><strong>{{publicacao.nomeUsuario}}</strong></p>
       </div>
 
-      <img class="card-img" [src]="publicacao.urlImagem" />
+      <img class="card-img" [src]="publicacao.urlImagem || '' " />
       
       <div class="card-body">
         <p class="card-text">
